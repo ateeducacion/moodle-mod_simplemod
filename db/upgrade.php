@@ -28,9 +28,8 @@
  * @copyright  2019 Richard Jones richardnz@outlook.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @see https://github.com/moodlehq/moodle-mod_simplemod
- * @see https://github.com/justinhunt/moodle-mod_simplemod*/
-
-defined('MOODLE_INTERNAL') || die();
+ * @see https://github.com/justinhunt/moodle-mod_simplemod
+ */
 
 /**
  * Execute simplemod upgrade from the given old version

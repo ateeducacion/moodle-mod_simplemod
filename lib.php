@@ -30,21 +30,19 @@
  * @see https://github.com/moodlehq/moodle-mod_simplemod
  * @see https://github.com/justinhunt/moodle-mod_simplemod */
 
-defined('MOODLE_INTERNAL') || die();
-
 /* Moodle core API */
 
 /**
  * Returns the information on whether the module supports a feature
  *
- * See {@link plugin_supports()} for more info.
+ * See {@see plugin_supports} for more info.
  *
  * @param string $feature FEATURE_xx constant for requested feature
  * @return mixed true if the feature is supported, null if unknown
  */
 function simplemod_supports($feature) {
 
-    switch($feature) {
+    switch ($feature) {
         case FEATURE_MOD_INTRO:
             return true;
         case FEATURE_SHOW_DESCRIPTION:
@@ -119,15 +117,12 @@ function simplemod_refresh_events($courseid = 0) {
             return true;
         }
     } else {
-        if (!$simplemods = $DB->get_records('simplemod', array('course' => $courseid))) {
+        if (!$simplemods = $DB->get_records('simplemod', ['course' => $courseid])) {
             return true;
         }
     }
 
-    foreach ($simplemods as $simplemod) {
-        // Create a function such as the one below to deal with updating calendar events.
-        // simplemod_update_events($simplemod);
-    }
+    // This module does not create calendar events.
 
     return true;
 }
@@ -145,12 +140,12 @@ function simplemod_refresh_events($courseid = 0) {
 function simplemod_delete_instance($id) {
     global $DB;
 
-    if (! $simplemod = $DB->get_record('simplemod', array('id' => $id))) {
+    if (! $simplemod = $DB->get_record('simplemod', ['id' => $id])) {
         return false;
     }
 
     // Delete any dependent records here.
-    $DB->delete_records('simplemod', array('id' => $simplemod->id));
+    $DB->delete_records('simplemod', ['id' => $simplemod->id]);
 
     return true;
 }
@@ -209,7 +204,7 @@ function simplemod_print_recent_activity($course, $viewfullnames, $timestart) {
  *
  * This callback function is supposed to populate the passed array with
  * custom activity records. These records are then rendered into HTML via
- * {@link simplemod_print_recent_mod_activity()}.
+ * {@see simplemod_print_recent_mod_activity}.
  *
  * Returns void, it adds items into $activities and increases $index.
  *
@@ -221,16 +216,16 @@ function simplemod_print_recent_activity($course, $viewfullnames, $timestart) {
  * @param int $userid check for a particular user's activity only, defaults to 0 (all users)
  * @param int $groupid check for a particular group's activity only, defaults to 0 (all groups)
  */
-function simplemod_get_recent_mod_activity(&$activities, &$index, $timestart, $courseid, $cmid, $userid=0, $groupid=0) {
+function simplemod_get_recent_mod_activity(&$activities, &$index, $timestart, $courseid, $cmid, $userid = 0, $groupid = 0) {
 }
 
 /**
- * Prints single activity item prepared by {@link simplemod_get_recent_mod_activity()}
+ * Prints single activity item prepared by {@see simplemod_get_recent_mod_activity}
  *
  * @param stdClass $activity activity record with added 'cmid' property
  * @param int $courseid the id of the course we produce the report for
  * @param bool $detail print detailed report
- * @param array $modnames as returned by {@link get_module_types_names()}
+ * @param array $modnames as returned by {@see get_module_types_names}
  * @param bool $viewfullnames display users' full names
  */
 function simplemod_print_recent_mod_activity($activity, $courseid, $detail, $modnames, $viewfullnames) {
@@ -246,7 +241,7 @@ function simplemod_print_recent_mod_activity($activity, $courseid, $detail, $mod
  *
  * @return boolean
  */
-function simplemod_cron () {
+function simplemod_cron() {
     return true;
 }
 
@@ -259,7 +254,7 @@ function simplemod_cron () {
  * @return array
  */
 function simplemod_get_extra_capabilities() {
-    return array();
+    return [];
 }
 
 /* Gradebook API */
@@ -275,7 +270,7 @@ function simplemod_get_extra_capabilities() {
  */
 function simplemod_scale_used($simplemodid, $scaleid) {
     global $DB;
-    if ($scaleid and $DB->record_exists('simplemod', array('id' => $simplemodid, 'grade' => -$scaleid))) {
+    if ($scaleid && $DB->record_exists('simplemod', ['id' => $simplemodid, 'grade' => -$scaleid])) {
         return true;
     } else {
         return false;
@@ -291,7 +286,7 @@ function simplemod_scale_used($simplemodid, $scaleid) {
  */
 function simplemod_scale_used_anywhere($scaleid) {
     global $DB;
-    if ($scaleid and $DB->record_exists('simplemod', array('grade' => -$scaleid))) {
+    if ($scaleid && $DB->record_exists('simplemod', ['grade' => -$scaleid])) {
         return true;
     } else {
         return false;
@@ -300,16 +295,16 @@ function simplemod_scale_used_anywhere($scaleid) {
 /**
  * Creates or updates grade item for the given simplemod instance
  *
- * Needed by {@link grade_update_mod_grades()}.
+ * Needed by {@see grade_update_mod_grades}.
  *
  * @param stdClass $simplemod instance object with extra cmidnumber and modname property
  * @param bool $reset reset grades in the gradebook
  * @return void
  */
-function simplemod_grade_item_update(stdClass $simplemod, $reset=false) {
+function simplemod_grade_item_update(stdClass $simplemod, $reset = false) {
     global $CFG;
-    require_once($CFG->libdir.'/gradelib.php');
-    $item = array();
+    require_once($CFG->libdir . '/gradelib.php');
+    $item = [];
     $item['itemname'] = clean_param($simplemod->name, PARAM_NOTAGS);
     $item['gradetype'] = GRADE_TYPE_VALUE;
     if ($simplemod->grade > 0) {
@@ -325,8 +320,16 @@ function simplemod_grade_item_update(stdClass $simplemod, $reset=false) {
     if ($reset) {
         $item['reset'] = true;
     }
-    grade_update('mod/simplemod', $simplemod->course, 'mod', 'simplemod',
-            $simplemod->id, 0, null, $item);
+    grade_update(
+        'mod/simplemod',
+        $simplemod->course,
+        'mod',
+        'simplemod',
+        $simplemod->id,
+        0,
+        null,
+        $item
+    );
 }
 /**
  * Delete grade item for given simplemod instance
@@ -336,23 +339,31 @@ function simplemod_grade_item_update(stdClass $simplemod, $reset=false) {
  */
 function simplemod_grade_item_delete($simplemod) {
     global $CFG;
-    require_once($CFG->libdir.'/gradelib.php');
-    return grade_update('mod/simplemod', $simplemod->course, 'mod', 'simplemod',
-            $simplemod->id, 0, null, array('deleted' => 1));
+    require_once($CFG->libdir . '/gradelib.php');
+    return grade_update(
+        'mod/simplemod',
+        $simplemod->course,
+        'mod',
+        'simplemod',
+        $simplemod->id,
+        0,
+        null,
+        ['deleted' => 1]
+    );
 }
 /**
  * Update simplemod grades in the gradebook
  *
- * Needed by {@link grade_update_mod_grades()}.
+ * Needed by {@see grade_update_mod_grades}.
  *
  * @param stdClass $simplemod instance object with extra cmidnumber and modname property
  * @param int $userid update grade of specific user only, 0 means all participants
  */
 function simplemod_update_grades(stdClass $simplemod, $userid = 0) {
     global $CFG, $DB;
-    require_once($CFG->libdir.'/gradelib.php');
+    require_once($CFG->libdir . '/gradelib.php');
     // Populate array of grade objects indexed by userid.
-    $grades = array();
+    $grades = [];
     grade_update('mod/simplemod', $simplemod->course, 'mod', 'simplemod', $simplemod->id, 0, $grades);
 }
 
@@ -362,7 +373,7 @@ function simplemod_update_grades(stdClass $simplemod, $userid = 0) {
  * Returns the lists of all browsable file areas within the given module context
  *
  * The file area 'intro' for the activity introduction field is added automatically
- * by {@link file_browser::get_file_info_context_module()}
+ * by {@see file_browser::get_file_info_context_module}
  *
  * @param stdClass $course
  * @param stdClass $cm
@@ -370,7 +381,7 @@ function simplemod_update_grades(stdClass $simplemod, $userid = 0) {
  * @return array of [(string)filearea] => (string)description
  */
 function simplemod_get_file_areas($course, $cm, $context) {
-    return array();
+    return [];
 }
 
 /**
@@ -408,7 +419,7 @@ function simplemod_get_file_info($browser, $areas, $course, $cm, $context, $file
  * @param bool $forcedownload whether or not force download
  * @param array $options additional options affecting the file serving
  */
-function simplemod_pluginfile($course, $cm, $context, $filearea, array $args, $forcedownload, array $options=array()) {
+function simplemod_pluginfile($course, $cm, $context, $filearea, array $args, $forcedownload, array $options = []) {
     global $DB, $CFG;
 
     if ($context->contextlevel != CONTEXT_MODULE) {
@@ -433,7 +444,6 @@ function simplemod_pluginfile($course, $cm, $context, $filearea, array $args, $f
  * @param cm_info $cm course module information
  */
 function simplemod_extend_navigation(navigation_node $navref, stdClass $course, stdClass $module, cm_info $cm) {
-    // TODO Delete this function and its docblock, or implement it.
 }
 
 /**
@@ -445,6 +455,5 @@ function simplemod_extend_navigation(navigation_node $navref, stdClass $course, 
  * @param settings_navigation $settingsnav complete settings navigation tree
  * @param navigation_node $simplemodnode simplemod administration node
  */
-function simplemod_extend_settings_navigation(settings_navigation $settingsnav, navigation_node $simplemodnode=null) {
-    // TODO Delete this function and its docblock, or implement it.
+function simplemod_extend_settings_navigation(settings_navigation $settingsnav, navigation_node $simplemodnode = null) {
 }

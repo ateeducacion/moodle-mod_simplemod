@@ -27,7 +27,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'mod_simplemod';
-$plugin->version = 2020082701;
-$plugin->release = 'v1.1';
-$plugin->requires = 2020060900;
-$plugin->maturity = MATURITY_BETA;
+$plugin->version = 2026032200;
+$plugin->release = 'v2.0.0';
+$plugin->requires = 2024042200;
+$plugin->maturity = MATURITY_STABLE;
