@@ -28,7 +28,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot.'/course/moodleform_mod.php');
+require_once($CFG->dirroot . '/course/moodleform_mod.php');
 
 /**
  * Module instance settings form
@@ -38,7 +38,6 @@ require_once($CFG->dirroot.'/course/moodleform_mod.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mod_simplemod_mod_form extends moodleform_mod {
-
     /**
      * Defines forms elements
      */
@@ -51,7 +50,7 @@ class mod_simplemod_mod_form extends moodleform_mod {
         $mform->addElement('header', 'general', get_string('general', 'form'));
 
         // Adding the standard "name" field.
-        $mform->addElement('text', 'name', get_string('simplemodname', 'simplemod'), array('size' => '64'));
+        $mform->addElement('text', 'name', get_string('simplemodname', 'simplemod'), ['size' => '64']);
         if (!empty($CFG->formatstringstriptags)) {
             $mform->setType('name', PARAM_TEXT);
         } else {
@@ -65,12 +64,12 @@ class mod_simplemod_mod_form extends moodleform_mod {
         $this->standard_intro_elements();
 
         // Add a specific mod_simplemod field - title.
-        $mform->addElement('text', 'title',
-                get_string('title', 'mod_simplemod'));
+        $mform->addElement(
+            'text',
+            'title',
+            get_string('title', 'mod_simplemod')
+        );
         $mform->setType('title', PARAM_TEXT);
-
-        // Add standard grading elements.
-        $this->standard_grading_coursemodule_elements();
 
         // Add standard elements, common to all modules.
         $this->standard_coursemodule_elements();

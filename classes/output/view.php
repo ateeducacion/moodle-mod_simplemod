@@ -32,20 +32,24 @@ use templatable;
 use stdClass;
 
 /**
- * Simplemod: Create a new view page renderable object
+ * Renderable for the simple example activity view page.
  *
- * @param object simnplemod - instance of simplemod.
- * @param int id - course module id.
  * @copyright  2020 Richard Jones <richardnz@outlook.com>
  */
-
 class view implements renderable, templatable {
-
+    /** @var \stdClass The activity instance record. */
     protected $simplemod;
+
+    /** @var int The course module id. */
     protected $id;
 
+    /**
+     * Constructor.
+     *
+     * @param \stdClass $simplemod The activity instance record.
+     * @param int $id The course module id.
+     */
     public function __construct($simplemod, $id) {
-
         $this->simplemod = $simplemod;
         $this->id = $id;
     }
@@ -59,10 +63,13 @@ class view implements renderable, templatable {
 
         $data = new stdClass();
 
-        $data->title = $this->simplemod->title;
+        $data->title = format_string($this->simplemod->title ?: $this->simplemod->name);
         // Moodle handles processing of std intro field.
-        $data->body = format_module_intro('simplemod',
-                $this->simplemod, $this->id);
+        $data->body = format_module_intro(
+            'simplemod',
+            $this->simplemod,
+            $this->id
+        );
 
         return $data;
     }

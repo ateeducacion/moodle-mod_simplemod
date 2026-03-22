@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-
 /**
  * English strings for simplemod
  *
@@ -30,19 +29,19 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['modulename'] = 'simplemod';
-$string['modulenameplural'] = 'simplemods';
-$string['modulename_help'] = 'Use the simplemod module for... | The simplemod module allows...';
-$string['simplemod:addinstance'] = 'Add a new simplemod';
+$string['modulename'] = 'Simple example activity';
+$string['modulenameplural'] = 'Simple example activities';
+$string['modulename_help'] = 'Use the Simple example activity module as a minimal reference for Moodle activity module development. It stores a name, an introduction and an optional title shown on the activity page.';
+$string['simplemod:addinstance'] = 'Add a new Simple example activity';
 $string['simplemod:submit'] = 'Submit simplemod';
-$string['simplemod:view'] = 'View simplemod';
-$string['simplemodfieldset'] = 'Custom example fieldset';
-$string['simplemodname'] = 'simplemod name';
-$string['simplemodname_help'] = 'This is the content of the help tooltip associated with the simplemodname field. Markdown syntax is supported.';
-$string['simplemod'] = 'simplemod';
-$string['pluginadministration'] = 'simplemod administration';
-$string['pluginname'] = 'simplemod';
+$string['simplemod:view'] = 'View Simple example activity';
+$string['simplemodfieldset'] = 'Simple example activity settings';
+$string['simplemodname'] = 'Activity name';
+$string['simplemodname_help'] = 'This name is shown on the course page and at the top of the activity.';
+$string['simplemod'] = 'Simple example activity';
+$string['pluginadministration'] = 'Simple example activity administration';
+$string['pluginname'] = 'Simple example activity';
 $string['nosimplemods'] = 'No instances';
 
 // Mod form specific simplemod settings.
-$string['title'] = 'Activity Title: ';
+$string['title'] = 'Page title';
