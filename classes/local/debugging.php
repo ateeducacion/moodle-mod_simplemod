@@ -36,7 +36,10 @@ class debugging {
      * @return void
      */
     public static function logit($message, $value) {
-        $file = fopen('mylog.log', 'a');
+        global $CFG;
+
+        $filepath = $CFG->dataroot . '/simplemod_mylog.log';
+        $file = fopen($filepath, 'ab');
 
         if ($file) {
             fwrite($file, var_export($message, true));
