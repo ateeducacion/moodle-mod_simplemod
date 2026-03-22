@@ -32,23 +32,49 @@ $id = optional_param('id', 0, PARAM_INT);
 $n  = optional_param('n', 0, PARAM_INT);
 
 if ($id) {
-    $cm = get_coursemodule_from_id('simplemod', $id, 0, false,
-            MUST_EXIST);
-    $course = $DB->get_record('course',
-            array('id' => $cm->course), '*', MUST_EXIST);
-    $simplemod = $DB->get_record('simplemod',
-            array('id' => $cm->instance), '*', MUST_EXIST);
+    $cm = get_coursemodule_from_id(
+        'simplemod',
+        $id,
+        0,
+        false,
+        MUST_EXIST
+    );
+    $course = $DB->get_record(
+        'course',
+        ['id' => $cm->course],
+        '*',
+        MUST_EXIST
+    );
+    $simplemod = $DB->get_record(
+        'simplemod',
+        ['id' => $cm->instance],
+        '*',
+        MUST_EXIST
+    );
 } else if ($n) {
-    $simplemod = $DB->get_record('simplemod', array('id' => $n), '*',
-            MUST_EXIST);
-    $course = $DB->get_record('course',
-            array('id' => $simplemod->course), '*', MUST_EXIST);
-    $cm = get_coursemodule_from_instance('simplemod', $simplemod->id,
-            $course->id, false, MUST_EXIST);
+    $simplemod = $DB->get_record(
+        'simplemod',
+        ['id' => $n],
+        '*',
+        MUST_EXIST
+    );
+    $course = $DB->get_record(
+        'course',
+        ['id' => $simplemod->course],
+        '*',
+        MUST_EXIST
+    );
+    $cm = get_coursemodule_from_instance(
+        'simplemod',
+        $simplemod->id,
+        $course->id,
+        false,
+        MUST_EXIST
+    );
 }
 
 // Print the page header.
-$PAGE->set_url('/mod/simplemod/view.php', array('id' => $cm->id));
+$PAGE->set_url('/mod/simplemod/view.php', ['id' => $cm->id]);
 
 require_login($course, true, $cm);
 

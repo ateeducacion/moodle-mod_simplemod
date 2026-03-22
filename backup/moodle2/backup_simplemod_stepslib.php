@@ -23,8 +23,6 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die;
-
 /**
  * Define the complete simplemod structure for backup, with file and id annotations
  *
@@ -36,7 +34,6 @@ defined('MOODLE_INTERNAL') || die;
  * @see https://github.com/justinhunt/moodle-mod_simplemod
  */
 class backup_simplemod_activity_structure_step extends backup_activity_structure_step {
-
     /**
      * Defines the backup structure of the module
      *
@@ -48,15 +45,18 @@ class backup_simplemod_activity_structure_step extends backup_activity_structure
         $userinfo = $this->get_setting_value('userinfo');
 
         // Define the root element describing the simplemod instance.
-        $simplemod = new backup_nested_element('simplemod',
-                array('id'), array('course', 'name', 'intro',
+        $simplemod = new backup_nested_element(
+            'simplemod',
+            ['id'],
+            ['course', 'name', 'intro',
                 'introformat', 'title', 'timecreated',
-                'timemodified'));
+            'timemodified']
+        );
 
         // If we had more elements, we would build the tree here.
 
         // Define data sources.
-        $simplemod->set_source_table('simplemod', array('id' => backup::VAR_ACTIVITYID));
+        $simplemod->set_source_table('simplemod', ['id' => backup::VAR_ACTIVITYID]);
 
         // If we were referring to other tables, we would annotate the relation
         // with the element's annotate_ids() method.

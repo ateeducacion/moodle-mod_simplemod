@@ -38,7 +38,6 @@ require_once($CFG->dirroot . '/mod/simplemod/backup/moodle2/backup_simplemod_set
  * @see https://github.com/moodlehq/moodle-mod_simplemod
  * @see https://github.com/justinhunt/moodle-mod_simplemod */
 class backup_simplemod_activity_task extends backup_activity_task {
-
     /**
      * No specific settings for this activity
      */
@@ -58,17 +57,17 @@ class backup_simplemod_activity_task extends backup_activity_task {
      * @param string $content some HTML text that eventually contains URLs to the activity instance scripts
      * @return string the content with the URLs encoded
      */
-    static public function encode_content_links($content) {
+    public static function encode_content_links($content) {
         global $CFG;
 
         $base = preg_quote($CFG->wwwroot, '/');
 
         // Link to the list of simplemods.
-        $search = '/('.$base.'\/mod\/simplemod\/index.php\?id\=)([0-9]+)/';
+        $search = '/(' . $base . '\/mod\/simplemod\/index.php\?id\=)([0-9]+)/';
         $content = preg_replace($search, '$@SIMPLEMODINDEX*$2@$', $content);
 
         // Link to simplemod view by moduleid.
-        $search = '/('.$base.'\/mod\/simplemod\/view.php\?id\=)([0-9]+)/';
+        $search = '/(' . $base . '\/mod\/simplemod\/view.php\?id\=)([0-9]+)/';
         $content = preg_replace($search, '$@SIMPLEMODVIEWBYID*$2@$', $content);
 
         return $content;

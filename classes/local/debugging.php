@@ -24,16 +24,23 @@
 
 namespace mod_simplemod\local;
 
-defined('MOODLE_INTERNAL') || die();
-
+/**
+ * Helper for writing simple debug output to a local file.
+ */
 class debugging {
+    /**
+     * Append debugging information to the local log file.
+     *
+     * @param mixed $message A label for the logged value.
+     * @param mixed $value The value to log.
+     * @return void
+     */
     public static function logit($message, $value) {
-
         $file = fopen('mylog.log', 'a');
 
         if ($file) {
-            fwrite($file, print_r($message, true));
-            fwrite($file, print_r($value, true));
+            fwrite($file, var_export($message, true));
+            fwrite($file, var_export($value, true));
             fwrite($file, "\n");
             fclose($file);
         }
