@@ -55,6 +55,7 @@ class view implements renderable, templatable {
     }
     /**
      * Export this data so it can be used as the context for a mustache template.
+     * If no custom page title was configured, the activity name is used instead.
      *
      * @param renderer_base $output
      * @return stdClass
